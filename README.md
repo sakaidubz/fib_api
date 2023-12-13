@@ -1,24 +1,45 @@
-# README
+# フィボナッチ数列を返すAPIサービスの開発
+## Shunsuke Sakai
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+### 初期化
+`rails new fib_api`
+### ソースコードの構成
+以下を実装した。
+- Model
+  - `#app/models/fib.rb`
+  - パラメータ n を引数としてフィボナッチ数列の n番目を計算し、JSON形式で結果を返すメソッドを定義
 
-Things you may want to cover:
+- Controller
+  - `#app/controllers/fib_controller.rb`
+  - 入力パラメータ n を取得し、モデルメソッドを動かし、結果に応じて返すレスポンスを定義
 
-* Ruby version
+- Routing
+  - `#config/routes.rb`
+  - エンドポイントのルーティングを定義
 
-* System dependencies
+- RSpec
+  - `#spec/models/fib_spec.rb`
+  - モデルに実装したロジックについて、ユニットテストを実装
+  - 各条件分岐に対するテストケースを列挙し、C1カバレッジを確保
 
-* Configuration
+### デプロイ
+Heroku上で新しいアプリ（fibapi）を作成し、以下の手順でデプロイし、エンドポイントURLを取得
+```
+$ heroku login
+$ heroku git:remote -a fibapi
+$ git push origin main
+$ heroku open
+```
+エンドポイントURL：https://fibapi-9c2c6f912ac1.herokuapp.com/fib
 
-* Database creation
+### 動作確認例
+```
+$ curl -X GET -H "Content-Type: application/json" "https://fibapi-9c2c6f912ac1.herokuapp.com/fib?n=5"
+{"result":5}
 
-* Database initialization
+$ curl -X GET -H "Content-Type: application/json" "https://fibapi-9c2c6f912ac1.herokuapp.com/fib?n=0"
+{"status":400,"message":"無効な入力：nは正の整数でなければいけません。"}
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+$ curl -X GET -H "Content-Type: application/json" "https://fibapi-9c2c6f912ac1.herokuapp.com/fib?n='invalid'"
+{"status":400,"message":"無効な入力：nは正の整数でなければいけません。"}
+```
