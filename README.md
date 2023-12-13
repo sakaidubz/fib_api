@@ -11,7 +11,7 @@
 
 - Controller
   - `#app/controllers/fib_controller.rb`
-  - 入力パラメータ n を取得し、モデルメソッドを動かし、結果に応じて返すレスポンスを定義
+  - 入力パラメータ n を取得し、モデルメソッドを呼び出し、結果に応じてレスポンスを返す処理を定義
 
 - Routing
   - `#config/routes.rb`
